@@ -25,7 +25,7 @@ export const actions = {
   // admin login
   async adminLogins({ commit }, data) {
       commit('setIsLoading', true);
-      const admins = await axios.post('http://127.0.0.1:8000/api/user/login', data);
+      const admins = await axios.post(process.env.API_URL+'user/login', data);
       if (admins.data.success) {
           this.$toast.show(admins.data.message, {
               type: "success",
@@ -39,5 +39,37 @@ export const actions = {
           });
       }
   },
+  // admin logout
+  async adminLogout({ commit }) {
+    commit('setAdmins', '')
+    commit('setToken', '')
+    localStorage.removeItem('token')
+    this.$router.push('/admin')
+    this.$toast.show('Logout Successfully !', {
+        type: "success",
+    });
+  //   const config = {
+  //     'headers': {
+  //         'Authorization': 'Bearer ' + localStorage.getItem('token'),
+  //     }
+  // }
+  //   const admins = await axios.post(process.env.API_URL+'logout', config);
+  //   if (admins.data.success) {
+  //     commit('setAdmins', '')
+  //     commit('setToken', '')
+  //     localStorage.removeItem('token')
+  //     this.$router.push('/admin')
+  //     this.$toast.show(admins.data.data, {
+  //         type: "success",
+  //     });
+
+  // } else {
+  //     this.$toast.show(admins.data.data, {
+  //         type: "error",
+  //     });
+  // }
+
+
+},
 
 }

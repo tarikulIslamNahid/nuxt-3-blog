@@ -100,6 +100,7 @@ return{
  },
    middleware: ["guest"],
    data: () => ({
+    url:process.env.API_URL,
 form:{
   email:'',
   password:'',

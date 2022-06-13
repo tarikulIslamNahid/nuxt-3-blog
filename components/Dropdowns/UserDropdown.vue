@@ -26,7 +26,7 @@
         block: dropdownPopoverShow,
       }"
     >
-      <a
+      <a @click="logout"
         href="javascript:void(0);"
         class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
       >
@@ -39,6 +39,7 @@
 
 <script>
 import { createPopper } from "@popperjs/core";
+import { mapActions } from "vuex";
 
 import image from "@/assets/img/team-1-800x800.jpg";
 
@@ -49,7 +50,12 @@ export default {
       image: image,
     };
   },
+
   methods: {
+       ...mapActions(["adminLogout"]),
+    logout() {
+      this.adminLogout();
+    },
     toggleDropdown: function (event) {
       event.preventDefault();
       if (this.dropdownPopoverShow) {

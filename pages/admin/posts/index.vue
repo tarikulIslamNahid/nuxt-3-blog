@@ -20,6 +20,7 @@ export default {
   layout (context) {
     return 'admin'
   },
+
    head(){
 return{
   title:'Posts'

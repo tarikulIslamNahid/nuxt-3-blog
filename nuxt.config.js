@@ -65,6 +65,9 @@ export default {
     //   }
     // ]
   },
+  env: {
+    API_URL: 'http://127.0.0.1:8000/api/'
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
