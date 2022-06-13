@@ -18,10 +18,16 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'}
+    ],
+    // script: [
+    //   { hid: 'stripe', src: 'https://js.stripe.com/v3/', defer: true }
+    // ]
   },
-
+  image:{
+    dir:'/assets/img/'
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -37,13 +43,28 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/google-fonts',
+    '@nuxtjs/fontawesome'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/toast',
   ],
+  toast: {
+    position: 'top-right',
+    // register: [ // Register custom toasts
+    //   {
+    //     name: 'my-error',
+    //     message: 'Oops...Something went wrong',
+    //     options: {
+    //       type: 'error'
+    //     }
+    //   }
+    // ]
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
