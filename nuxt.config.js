@@ -19,11 +19,11 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'}
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'},
     ],
-    // script: [
-    //   { hid: 'stripe', src: 'https://js.stripe.com/v3/', defer: true }
-    // ]
+    script: [
+      // { hid: 'stript', src: 'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js', defer: true }
+    ]
   },
   image:{
     dir:'/assets/img/'
@@ -34,6 +34,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src:'~/plugins/vue-toast',ssr:false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -51,20 +52,9 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/toast',
+    'vue-sweetalert2/nuxt'
   ],
-  toast: {
-    position: 'top-right',
-    // register: [ // Register custom toasts
-    //   {
-    //     name: 'my-error',
-    //     message: 'Oops...Something went wrong',
-    //     options: {
-    //       type: 'error'
-    //     }
-    //   }
-    // ]
-  },
+
   env: {
     API_URL: 'http://127.0.0.1:8000/api/'
   },

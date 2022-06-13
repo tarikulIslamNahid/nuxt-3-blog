@@ -27,16 +27,24 @@ export const actions = {
       commit('setIsLoading', true);
       const admins = await axios.post(process.env.API_URL+'user/login', data);
       if (admins.data.success) {
-          this.$toast.show(admins.data.message, {
-              type: "success",
-          });
+        Toast.fire({
+          icon: 'success',
+          title: admins.data.success
+        })
+          // this.$toast.show(admins.data.success, {
+          //     type: "success",
+          // });
           commit('setToken', admins.data.access_token);
           localStorage.setItem('token', admins.data.access_token);
           this.$router.push('/admin/dashboard')
       } else {
-          this.$toast.show(admins.data.message, {
-              type: "error",
-          });
+          // this.$toast.show(admins.data.data, {
+          //     type: "error",
+          // });
+          Toast.fire({
+            icon: 'error',
+            title: admins.data.data,
+          })
       }
   },
   // admin logout
@@ -45,9 +53,11 @@ export const actions = {
     commit('setToken', '')
     localStorage.removeItem('token')
     this.$router.push('/admin')
-    this.$toast.show('Logout Successfully !', {
-        type: "success",
-    });
+
+    Toast.fire({
+      icon: 'error',
+      title: 'Logout Successfully !'
+    })
   //   const config = {
   //     'headers': {
   //         'Authorization': 'Bearer ' + localStorage.getItem('token'),
