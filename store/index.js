@@ -4,7 +4,7 @@ export const state = () => ({
     admins: {},
     isloading: false,
     token: localStorage.getItem('token') || "",
-    categorys: [],
+    categories: [],
 })
 
 export const mutations = {
@@ -17,8 +17,8 @@ export const mutations = {
   setToken(state, token) {
       state.token = token;
   },
-  setCategorys(state, categorys) {
-    state.categorys = categorys;
+  setcategories(state, categories) {
+    state.categories = categories;
 },
 }
 
@@ -107,16 +107,25 @@ export const actions = {
         this.$router.push('/admin/categories')
 
     } else {
-      // console.log(res.data.data);
-      // console.log(res.data.data['cat_name']);
-      // console.log(res.data.data['cat_name'][0]);
       Toast.fire({
         icon: 'error',
         title: res.data.data['cat_name'][0],
       })
-
         commit("setIsLoading", false)
     }
 },
-
+    // get category
+    async getCategory({ commit }) {
+      commit('setIsLoading', true)
+      const config = {
+          'headers': {
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          }
+      }
+      const res = await axios.get(process.env.API_URL+`admin/categories`, config);
+      if (res.data.success) {
+          commit('setIsLoading', false)
+          commit('setcategories', res.data.data)
+      }
+  },
 }
