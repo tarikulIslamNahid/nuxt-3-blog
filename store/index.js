@@ -82,4 +82,15 @@ export const actions = {
 
 },
 
+ // get admins name and email
+ async getAdmins({ commit }) {
+  const config = {
+      'headers': {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+  }
+  const data = await axios.get(process.env.API_URL+'admins', config);
+  commit('setAdmins', data.data[0])
+},
+
 }
