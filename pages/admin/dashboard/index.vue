@@ -11,7 +11,7 @@
 </div>
 </template>
 <script>
-import CardPageVisits from "@/components/Cards/CardPageVisits.vue";
+import CardPageVisits from "~/components/Cards/TableDate.vue";
 import CardSocialTraffic from "@/components/Cards/CardSocialTraffic.vue";
 export default {
     layout: 'admin',
