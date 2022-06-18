@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-      <form>
+      <form @submit.prevent="CategoryStore">
 
         <div class="flex flex-wrap">
 
@@ -26,8 +26,8 @@
               </label>
               <input
                 type="text"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                value="Lucky"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" v-model="form.cat_name"
+                value="Enter Category Name"
               />
             </div>
           </div>
@@ -37,7 +37,7 @@
          <div class="text-right mt-4">
    <button
           class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          type="button"
+          type="submit"
         >
           Create
         </button>
@@ -50,6 +50,8 @@
   </div>
 </template>
 <script>
+import {mapActions}  from "vuex";
+
 export default {
     layout: 'admin',
 
@@ -60,7 +62,28 @@ export default {
 return{
   title:'Category Create'
 }
- }
+ },
+   data: () => ({
+    url:process.env.API_URL,
+form:{
+  cat_name:''
+}
+  }),
+  methods: {
+     ...mapActions(["StoreCategory"]),
+    CategoryStore() {
+      if (!this.form.cat_name) {
+
+         Toast.fire({
+              icon: 'error',
+              title: 'Please fill the field',
+            })
+      } else {
+
+        this.StoreCategory(this.form);
+      }
+    }
+  },
 }
 </script>
 <style lang="">

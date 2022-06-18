@@ -54,7 +54,18 @@ export default {
     '@nuxtjs/axios',
     'vue-sweetalert2/nuxt'
   ],
-
+  toast: {
+    position: 'top-right',
+    // register: [ // Register custom toasts
+    //   {
+    //     name: 'my-error',
+    //     message: 'Oops...Something went wrong',
+    //     options: {
+    //       type: 'error'
+    //     }
+    //   }
+    // ]
+  },
   env: {
     API_URL: 'http://127.0.0.1:8000/api/'
   },

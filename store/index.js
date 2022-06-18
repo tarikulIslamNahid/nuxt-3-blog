@@ -2,10 +2,9 @@ import axios from 'axios';
 
 export const state = () => ({
     admins: {},
-
     isloading: false,
     token: localStorage.getItem('token') || "",
-
+    categorys: [],
 })
 
 export const mutations = {
@@ -18,6 +17,9 @@ export const mutations = {
   setToken(state, token) {
       state.token = token;
   },
+  setCategorys(state, categorys) {
+    state.categorys = categorys;
+},
 }
 
 export const actions = {
@@ -84,6 +86,37 @@ export const actions = {
   }
   const data = await axios.get(process.env.API_URL+'admins', config);
   commit('setAdmins', data.data[0])
+},
+
+   // create category
+   async StoreCategory({ commit }, data) {
+    commit("setIsLoading", true)
+    const config = {
+        'headers': {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        }
+    }
+    const res = await axios.post(process.env.API_URL+'admin/category/store', data, config);
+    if (res.data.success) {
+        Toast.fire({
+          icon: 'success',
+          title: res.data.data,
+        })
+        data.cat_name = ''
+        commit("setIsLoading", false)
+        this.$router.push('/admin/categories')
+
+    } else {
+      // console.log(res.data.data);
+      // console.log(res.data.data['cat_name']);
+      // console.log(res.data.data['cat_name'][0]);
+      Toast.fire({
+        icon: 'error',
+        title: res.data.data['cat_name'][0],
+      })
+
+        commit("setIsLoading", false)
+    }
 },
 
 }
