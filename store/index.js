@@ -48,36 +48,29 @@ export const actions = {
       }
   },
   // admin logout
-  async adminLogout({ commit }) {
-    commit('setAdmins', '')
-    commit('setToken', '')
-    localStorage.removeItem('token')
-    this.$router.push('/admin')
+  async adminLogout({ commit },_) {
 
-    Toast.fire({
-      icon: 'error',
-      title: 'Logout Successfully !'
-    })
-  //   const config = {
-  //     'headers': {
-  //         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-  //     }
-  // }
-  //   const admins = await axios.post(process.env.API_URL+'logout', config);
-  //   if (admins.data.success) {
-  //     commit('setAdmins', '')
-  //     commit('setToken', '')
-  //     localStorage.removeItem('token')
-  //     this.$router.push('/admin')
-  //     this.$toast.show(admins.data.data, {
-  //         type: "success",
-  //     });
+    const config = {
+      'headers': {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+  }
+  const admins = await axios.get(process.env.API_URL+'logout', config);
 
-  // } else {
-  //     this.$toast.show(admins.data.data, {
-  //         type: "error",
-  //     });
-  // }
+    if (admins.data.success) {
+      commit('setAdmins', '')
+      commit('setToken', '')
+      localStorage.removeItem('token')
+      this.$router.push('/admin')
+      this.$toast.show(admins.data.data, {
+          type: "success",
+      });
+
+  } else {
+      this.$toast.show(admins.data.data, {
+          type: "error",
+      });
+  }
 
 
 },
