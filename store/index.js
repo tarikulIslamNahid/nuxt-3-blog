@@ -171,4 +171,29 @@ export const actions = {
 
     },
 
+        // update Category
+        async updateCategory({ commit }, data) {
+          commit('setIsLoading', true)
+          const config = {
+              'headers': {
+                  'Authorization': 'Bearer ' + localStorage.getItem('token'),
+              }
+          }
+          const res = await axios.post(process.env.API_URL+`admin/category/update`, data, config);
+          if (res.data.success) {
+              commit('setIsLoading', false)
+              Toast.fire({
+                icon:'success',
+                title: res.data.data,
+              })
+              this.$router.push("/admin/categories")
+          } else {
+              commit('setIsLoading', false)
+              Toast.fire({
+                icon:'error',
+                title: res.data.data,
+              })
+          }
+      },
+
 }
