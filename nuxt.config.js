@@ -20,9 +20,10 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'},
+      { rel: 'stylesheet', href: 'https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css'},
     ],
     script: [
-      // { hid: 'stript', src: 'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js', defer: true }
+      // { hid: 'stript', src: 'https://unpkg.com/vue-multiselect@2.1.0', defer: true }
     ]
   },
   image:{
@@ -35,6 +36,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src:'~/plugins/vue-toast',ssr:false},
+    {src:'~/plugins/multi-select',ssr:false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

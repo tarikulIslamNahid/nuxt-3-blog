@@ -27,7 +27,7 @@
               <input
                 type="text"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                value="Lucky"
+                v-model="form.title"
               />
             </div>
           </div>
@@ -39,12 +39,11 @@
               >
                Select Category
               </label>
-              <select class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">category</option>
-                <option value="">table</option>
-                <option value="">fasion</option>
-                <option value="">Technology</option>
-              </select>
+
+
+<multiselect v-model="values" @remove="onChange" :allow-empty="false" @select="onSelect" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :search="true" :preserve-search="true" placeholder="Select Category" label="cat_name" track-by="id" :preselect-first="true">
+    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
+  </multiselect>
 
             </div>
           </div>
@@ -59,10 +58,9 @@
   <textarea
                 type="text"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                rows="4"
+                rows="4" v-model="form.content" placeholder="Enter Blog Content"
               >
-                    A beautiful UI Kit and Admin for VueJS & Tailwind CSS. It is Free
-                    and Open Source.
+
                   </textarea
               >
             </div>
@@ -86,19 +84,50 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import Multiselect from 'vue-multiselect'
 export default {
     layout: 'admin',
 
   layout (context) {
     return 'admin'
   },
+  components: { Multiselect },
+
    head(){
 return{
   title:'Post Create'
 }
- }
+ },
+    data: () => ({
+    url:process.env.API_URL,
+form:{
+  title:'',
+  content:'',
+  cat_id:'',
+},
+   options: [],
+    values: [],
+  }),
+  methods:{
+...mapActions(["getCategory"]),
+
+ onSelect (option) {
+            var ids = option.id + ',';
+this.form.cat_id+=ids.split(',');
+    },
+  onChange (removedOption) {
+  var value = this.form.cat_id;
+var removeID = removedOption.id+',';
+this.form.cat_id=value.replace(removeID,'');
+    },
+  },
+     async mounted() {
+    await this.getCategory();
+    this.options=this.$store.state.categories
+   }
 }
 </script>
-<style lang="">
+<style lang="postcss">
 
 </style>
