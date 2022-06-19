@@ -196,4 +196,31 @@ export const actions = {
           }
       },
 
+        // create Post
+   async StorePost({ commit }, data) {
+    commit("setIsLoading", true)
+    const config = {
+        'headers': {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        }
+    }
+    const res = await axios.post(process.env.API_URL+'admin/post/store', data, config);
+    if (res.data.success) {
+        Toast.fire({
+          icon: 'success',
+          title: res.data.data,
+        })
+        data.cat_name = ''
+        commit("setIsLoading", false)
+        this.$router.push('/admin/posts')
+
+    } else {
+      Toast.fire({
+        icon: 'error',
+        title: res.data.data,
+      })
+        commit("setIsLoading", false)
+    }
+},
+
 }
