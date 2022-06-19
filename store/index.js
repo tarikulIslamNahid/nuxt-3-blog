@@ -128,4 +128,27 @@ export const actions = {
           commit('setcategories', res.data.data)
       }
   },
+
+      // delete category
+      async deleteCategory(_, id) {
+        const config = {
+            'headers': {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
+        const res = await axios.delete(process.env.API_URL+`admin/category/destroy/${id}`, config);
+       if(res.data.success){
+        Toast.fire({
+          icon:'success',
+          title: res.data.data,
+        })
+       }else{
+        Toast.fire({
+          icon:'error',
+          title: res.data.data,
+        })
+       }
+
+    },
+
 }
