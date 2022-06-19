@@ -5,6 +5,7 @@ export const state = () => ({
     isloading: false,
     token: localStorage.getItem('token') || "",
     categories: [],
+    slugCat: {},
 })
 
 export const mutations = {
@@ -19,6 +20,9 @@ export const mutations = {
   },
   setcategories(state, categories) {
     state.categories = categories;
+},
+setSlugCategories(state, slugCat) {
+    state.slugCat = slugCat;
 },
 }
 
@@ -148,6 +152,22 @@ export const actions = {
           title: res.data.data,
         })
        }
+
+    },
+      // Category Get By Slug
+      async SlugCategory({ commit }, slug) {
+      commit('setIsLoading', true)
+
+        const config = {
+            'headers': {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
+        const res = await axios.get(process.env.API_URL+`admin/category/${slug}`, config);
+        if (res.data.success) {
+          commit('setIsLoading', false)
+          commit('setSlugCategories', res.data.data)
+      }
 
     },
 

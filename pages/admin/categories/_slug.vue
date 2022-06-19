@@ -7,7 +7,7 @@
   >
     <div class="rounded-t bg-white mb-0 px-6 py-6">
       <div class="text-center flex justify-between">
-        <h6 class="text-blueGray-700 text-xl font-bold">Edit Category {{slug}} </h6>
+        <h6 class="text-blueGray-700 text-xl font-bold">Edit Category</h6>
 
       </div>
     </div>
@@ -26,8 +26,8 @@
               </label>
               <input
                 type="text"
+                v-model="form.cat_name"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                value="Lucky"
               />
             </div>
           </div>
@@ -39,7 +39,7 @@
           class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
           type="button"
         >
-          Create
+          Update
         </button>
       </div>
       </form>
@@ -50,6 +50,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 export default {
     layout: 'admin',
 
@@ -57,14 +58,40 @@ export default {
     return 'admin'
   },
    async asyncData({ params }) {
-      const slug = params.slug // When calling /abc the slug will be "abc"
-      return { slug }
+      const Catslug = params.slug // When calling /abc the slug will be "abc"
+      return { Catslug }
     },
    head(){
 return{
   title:'Category Create'
 }
- }
+ },
+    data: () => ({
+    url:process.env.API_URL,
+form:{
+  cat_name:'',
+  id:'',
+}
+  }),
+    methods: {
+    ...mapActions(["updateCategory"]),
+    ...mapActions(["SlugCategory"]),
+    update() {
+       if (!this.form.cat_name) {
+         Toast.fire({
+              icon: 'error',
+              title: 'Please fill the field',
+            })
+      } else {
+        this.updateCategory(this.form);
+      }
+    },
+    },
+       async mounted() {
+    await this.SlugCategory(this.$route.params.slug);
+    this.form.cat_name=this.$store.state.slugCat.cat_name;
+    this.form.id=this.$store.state.slugCat.id;
+   }
 }
 </script>
 <style lang="">

@@ -2,15 +2,17 @@ const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 
 module.exports = {
+  mode:'jit',
   purge: {
     enabled: true,
     content: [
-      "./**/*.html",
-      "./*.html",
-      "./**/*.js",
-      "./*.js",
-      "./**/*.vue",
-      "./*.vue",
+      `components/**/*.{vue,js}`,
+      `layouts/**/*.vue`,
+      `pages/**/*.vue`,
+      `composables/**/*.{js,ts}`,
+      `plugins/**/*.{js,ts}`,
+      `App.{js,ts,vue}`,
+      `app.{js,ts,vue}`,
     ],
     options: {
       safelist: [],
