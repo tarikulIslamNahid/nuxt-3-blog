@@ -5,6 +5,7 @@ export const state = () => ({
     isloading: false,
     token: localStorage.getItem('token') || "",
     categories: [],
+    posts: [],
     slugCat: {},
 })
 
@@ -23,6 +24,9 @@ export const mutations = {
 },
 setSlugCategories(state, slugCat) {
     state.slugCat = slugCat;
+},
+setPosts(state, posts) {
+    state.posts = posts;
 },
 }
 
@@ -222,5 +226,20 @@ export const actions = {
         commit("setIsLoading", false)
     }
 },
+
+    // get category
+    async getPosts({ commit }) {
+      commit('setIsLoading', true)
+      const config = {
+          'headers': {
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          }
+      }
+      const res = await axios.get(process.env.API_URL+`admin/posts`, config);
+      if (res.data.success) {
+          commit('setIsLoading', false)
+          commit('setPosts', res.data.data)
+      }
+  },
 
 }
