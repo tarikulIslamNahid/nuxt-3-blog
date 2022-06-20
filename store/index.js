@@ -306,4 +306,26 @@ export const actions = {
           }
       },
 
+      //  post status changed
+      async statuspost(_, id) {
+      const config = {
+          'headers': {
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          }
+      }
+      const res = await axios.get(process.env.API_URL+`admin/post/status/${id}`, config);
+      if(res.data.success){
+      Toast.fire({
+        icon:'success',
+        title: res.data.data,
+      })
+      }else{
+      Toast.fire({
+        icon:'error',
+        title: res.data.data,
+      })
+      }
+
+  },
+
 }

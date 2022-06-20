@@ -40,6 +40,11 @@
         >
           Edit
         </NuxtLink>
+                 <button  type="button" :class="post.status ==1 ? 'active:bg-emerald-600 bg-emerald-500' : 'bg-red-500 active:bg-red-600' "
+          class="  text-white  font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+          @click="StatusPost(post.id) ">
+         {{post.status ==1 ? 'Active' : 'Deactive'}}
+        </button>
                  <button  type="button" id="PostDelBtn"
           class=" bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
           @click="destroyPost(post.id) ">
@@ -92,9 +97,13 @@ form:{
   }),
 
   methods:{
-...mapActions(["getPosts","deletePost"]),
+...mapActions(["getPosts","deletePost","statuspost"]),
     destroyPost(id) {
       this.deletePost(id);
+      this.getPosts();
+    },
+    StatusPost(id) {
+      this.statuspost(id);
       this.getPosts();
     },
  },
