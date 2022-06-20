@@ -1,69 +1,85 @@
-# blog
+## Backend OR Api Project setup
 
-## Build Setup
+Clone the ```[API Project ]```
 
 ```bash
-# install dependencies
-$ yarn install
+  git clone https://github.com/tarikulIslamNahid/laravel-9-blog-api.git $PROJECT_NAME
+```
+Go to the project directory
 
-# serve with hot reload at localhost:3000
-$ yarn dev
-
-# build for production and launch server
-$ yarn build
-$ yarn start
-
-# generate static project
-$ yarn generate
+```bash
+  cd $PROJECT_NAME
+```
+ Install Composer Dependencies
+ 
+```bash
+composer install
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+Create a copy of your .env file
+```bash
+cp .env.example .env
+```
+```In the .env file, add database information to allow Laravel to connect to the database```
 
-## Special Directories
+terminal run:
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+```bash
+php artisan key:generate
+php artisan config:clear
+php artisan optimize:clear
+``` 
+Migrate & Seed the database. | ```seed is important to create user```
 
-### `assets`
+```bash
+php artisan migrate:fresh --seed
+``` 
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+Start the server
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+```bash
+  php artisan serve
+```
 
-### `components`
+Check Api Documentation 
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
+```bash
+App\api-docs
+``` 
 
 
-### `pages`
+## Frontend Project setup
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
+Clone the ```[Frontend Project ]```
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
+```bash
+  git clone https://github.com/tarikulIslamNahid/nuxt-3-blog.git $PROJECT_NAME
+```
+Go to the project directory
 
-### `plugins`
+```bash
+  cd $PROJECT_NAME
+```
+ install dependencies
+ 
+```bash
+yarn install
+```
+ 
+```Set Backend API URL```
 
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
+```bash
+   got to -> [nuxt.config.js] file then scroll down and  update API_URL:  '$BACKEND_URL/api/'
+``` 
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
+serve with hot reload at localhost:3000
+ 
+```bash
+yarn dev
+```
 
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+admin panel
+ 
+```bash
+$WEB_URL/admin
+```
