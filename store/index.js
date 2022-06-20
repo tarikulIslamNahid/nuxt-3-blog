@@ -8,7 +8,9 @@ export const state = () => ({
     posts: [],
     slugCat: {},
     editPost: {},
+    webSinglePost: {},
     postsforweb: [],
+    WebCategoryPosts: [],
   })
 
 export const mutations = {
@@ -30,11 +32,17 @@ setSlugCategories(state, slugCat) {
 setEditPost(state, editPost) {
     state.editPost = editPost;
 },
+setWebSinglePost(state, webSinglePost) {
+    state.webSinglePost = webSinglePost;
+},
 setPosts(state, posts) {
     state.posts = posts;
 },
 setPostsForWeb(state, postsforweb) {
     state.postsforweb = postsforweb;
+},
+setWebCategoryPosts(state, WebCategoryPosts) {
+    state.WebCategoryPosts = WebCategoryPosts;
 },
 }
 
@@ -285,6 +293,7 @@ export const actions = {
 
           },
 
+
             // update Post
         async updatePost({ commit }, data) {
           commit('setIsLoading', true)
@@ -342,5 +351,20 @@ export const actions = {
             commit('setPostsForWeb', res.data.data)
         }
     },
+
+       // website single post get by slug
+       async WebPostGetBySlug({ commit }, slug) {
+          const res = await axios.get(process.env.API_URL+`web/post/${slug}`);
+          if (res.data.success) {
+            commit('setWebSinglePost', res.data.data)
+        }
+      },
+       // website single post get by slug
+       async WebCategoriesPost({ commit }, slug) {
+          const res = await axios.get(process.env.API_URL+`web/categories/blogs/${slug}`);
+          if (res.data.success) {
+            commit('setWebCategoryPosts', res.data.data)
+        }
+      },
 
 }

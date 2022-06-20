@@ -3,7 +3,9 @@
   <nav class="container mx-auto max-w-3xl px-8 pt-2 flex flex-wrap justify-between">
     <div>
       <h1>
-Blogger
+
+                    <NuxtLink class="block" to="/">Blogger</NuxtLink>
+
       </h1>
       <p>this is site description</p>
     </div>
