@@ -13,7 +13,7 @@
     </div>
 
     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-      <form>
+      <form @submit.prevent="update">
 
         <div class="flex flex-wrap">
 
@@ -28,7 +28,7 @@
               <input
                 type="text"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                value="Lucky"
+                v-model="form.title"
               />
             </div>
           </div>
@@ -40,12 +40,11 @@
               >
                Select Category
               </label>
-              <select class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">category</option>
-                <option value="">table</option>
-                <option value="">fasion</option>
-                <option value="">Technology</option>
-              </select>
+
+
+<multiselect v-model="values" @remove="onChange" :allow-empty="false" @select="onSelect" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :search="true" :preserve-search="true" placeholder="Select Category" label="cat_name" track-by="id" :preselect-first="true">
+    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
+  </multiselect>
 
             </div>
           </div>
@@ -55,15 +54,14 @@
                 class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                 htmlFor="grid-password"
               >
-               Content
+               Description
               </label>
   <textarea
                 type="text"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                rows="4"
+                rows="4" v-model="form.description" placeholder="Enter Blog Description"
               >
-                    A beautiful UI Kit and Admin for VueJS & Tailwind CSS. It is Free
-                    and Open Source.
+
                   </textarea
               >
             </div>
@@ -74,9 +72,9 @@
          <div class="text-right mt-4">
    <button
           class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          type="button"
+          type="submit"
         >
-          Create
+          Update
         </button>
       </div>
       </form>
@@ -87,6 +85,8 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import Multiselect from 'vue-multiselect'
 export default {
     layout: 'admin',
 
@@ -97,11 +97,64 @@ export default {
       const slug = params.slug // When calling /abc the slug will be "abc"
       return { slug }
     },
+  components: { Multiselect },
+
    head(){
 return{
   title:'Category Create'
 }
- }
+ },
+     data: () => ({
+    url:process.env.API_URL,
+form:{
+  id:'',
+  title:'',
+  description:'',
+  cat_id:'',
+},
+   options: [],
+    values: [],
+  }),
+   methods:{
+...mapActions(["getCategory","StorePost","PostGetBySlug","updatePost"]),
+
+ onSelect (option) {
+            var ids = option.id + ',';
+this.form.cat_id+=ids.split(',');
+    },
+  onChange (removedOption) {
+  var value = this.form.cat_id;
+var removeID = removedOption.id+',';
+this.form.cat_id=value.replace(removeID,'');
+    },
+
+    // update post
+      update() {
+       if (!this.form.title || !this.form.description) {
+         Toast.fire({
+              icon: 'error',
+              title: 'Please fill the field',
+            })
+      } else {
+        this.updatePost(this.form);
+      }
+    },
+
+  },
+     async mounted() {
+    await this.getCategory();
+    this.options=this.$store.state.categories
+    // post get by slug
+        await this.PostGetBySlug(this.$route.params.slug);
+    this.form.title=this.$store.state.editPost[0].title;
+    this.form.id=this.$store.state.editPost[0].id;
+    this.form.description=this.$store.state.editPost[0].description;
+    this.values=this.$store.state.editPost[0].category;
+    let cat_ids= this.$store.state.editPost[0].category;
+    cat_ids.forEach(cat => {
+      this.form.cat_id+=cat.id+',';
+    });
+   }
 }
 </script>
 <style lang="">

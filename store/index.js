@@ -7,6 +7,7 @@ export const state = () => ({
     categories: [],
     posts: [],
     slugCat: {},
+    editPost: {},
 })
 
 export const mutations = {
@@ -25,6 +26,9 @@ export const mutations = {
 setSlugCategories(state, slugCat) {
     state.slugCat = slugCat;
 },
+setEditPost(state, editPost) {
+    state.editPost = editPost;
+},
 setPosts(state, posts) {
     state.posts = posts;
 },
@@ -41,16 +45,11 @@ export const actions = {
           icon: 'success',
           title: admins.data.success
         })
-          // this.$toast.show(admins.data.success, {
-          //     type: "success",
-          // });
+
           commit('setToken', admins.data.access_token);
           localStorage.setItem('token', admins.data.access_token);
           this.$router.push('/admin/dashboard')
       } else {
-          // this.$toast.show(admins.data.data, {
-          //     type: "error",
-          // });
           Toast.fire({
             icon: 'error',
             title: admins.data.data,
@@ -175,6 +174,7 @@ export const actions = {
 
     },
 
+
         // update Category
         async updateCategory({ commit }, data) {
           commit('setIsLoading', true)
@@ -263,5 +263,47 @@ export const actions = {
        }
 
     },
+
+          // Edit Post or post get by slug
+          async PostGetBySlug({ commit }, slug) {
+            commit('setIsLoading', true)
+
+              const config = {
+                  'headers': {
+                      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                  }
+              }
+              const res = await axios.get(process.env.API_URL+`admin/post/${slug}`, config);
+              if (res.data.success) {
+                commit('setIsLoading', false)
+                commit('setEditPost', res.data.data)
+            }
+
+          },
+
+            // update Post
+        async updatePost({ commit }, data) {
+          commit('setIsLoading', true)
+          const config = {
+              'headers': {
+                  'Authorization': 'Bearer ' + localStorage.getItem('token'),
+              }
+          }
+          const res = await axios.post(process.env.API_URL+`admin/post/update`, data, config);
+          if (res.data.success) {
+              commit('setIsLoading', false)
+              Toast.fire({
+                icon:'success',
+                title: res.data.data,
+              })
+              this.$router.push("/admin/posts")
+          } else {
+              commit('setIsLoading', false)
+              Toast.fire({
+                icon:'error',
+                title: res.data.data,
+              })
+          }
+      },
 
 }
