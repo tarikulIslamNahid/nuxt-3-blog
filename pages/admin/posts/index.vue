@@ -40,10 +40,9 @@
         >
           Edit
         </NuxtLink>
-                 <button
+                 <button  type="button" id="PostDelBtn"
           class=" bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-          type="button"
-        >
+          @click="destroyPost(post.id) ">
           Delete
         </button>
             </td>
@@ -91,8 +90,13 @@ form:{
   password:'',
 }
   }),
-   methods:{
-...mapActions(["getPosts"]),
+
+  methods:{
+...mapActions(["getPosts","deletePost"]),
+    destroyPost(id) {
+      this.deletePost(id);
+      this.getPosts();
+    },
  },
      async mounted() {
     await this.getPosts();

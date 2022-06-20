@@ -227,7 +227,7 @@ export const actions = {
     }
 },
 
-    // get category
+    // get posts
     async getPosts({ commit }) {
       commit('setIsLoading', true)
       const config = {
@@ -241,5 +241,27 @@ export const actions = {
           commit('setPosts', res.data.data)
       }
   },
+
+       // delete post
+       async deletePost(_, id) {
+        const config = {
+            'headers': {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
+        const res = await axios.delete(process.env.API_URL+`admin/post/destroy/${id}`, config);
+       if(res.data.success){
+        Toast.fire({
+          icon:'success',
+          title: res.data.data,
+        })
+       }else{
+        Toast.fire({
+          icon:'error',
+          title: res.data.data,
+        })
+       }
+
+    },
 
 }
