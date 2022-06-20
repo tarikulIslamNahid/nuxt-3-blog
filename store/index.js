@@ -8,7 +8,8 @@ export const state = () => ({
     posts: [],
     slugCat: {},
     editPost: {},
-})
+    postsforweb: [],
+  })
 
 export const mutations = {
   setAdmins(state, admins) {
@@ -31,6 +32,9 @@ setEditPost(state, editPost) {
 },
 setPosts(state, posts) {
     state.posts = posts;
+},
+setPostsForWeb(state, postsforweb) {
+    state.postsforweb = postsforweb;
 },
 }
 
@@ -327,5 +331,16 @@ export const actions = {
       }
 
   },
+
+  // for website
+      // get posts for website
+      async getPostsForWeb({ commit }) {
+        commit('setIsLoading', true)
+        const res = await axios.get(process.env.API_URL+`web/posts`);
+        if (res.data.success) {
+            commit('setIsLoading', false)
+            commit('setPostsForWeb', res.data.data)
+        }
+    },
 
 }
